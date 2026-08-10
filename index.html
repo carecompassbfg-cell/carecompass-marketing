@@ -145,6 +145,12 @@
   }
   .shot .cam { font-size: 20px; opacity: 0.6; }
 
+  .shot-video {
+    margin-top: 16px; border-radius: 12px; display: block; width: 100%;
+    aspect-ratio: 656 / 1280; object-fit: cover; background: var(--white);
+    border: 1px solid var(--line);
+  }
+
   .mini-chat { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
   .mmsg { display: flex; }
   .mmsg.u { justify-content: flex-end; }
@@ -371,7 +377,9 @@
         <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
         <h3 data-i18n="f3_h">Find services</h3>
         <p data-i18n="f3_p">Daycare, respite, and home care near you — ranked by real caregiver reviews so you can choose with confidence.</p>
-        <div class="shot"><span class="cam">▣</span><span>App screenshot: care services near you<br>(replace with real capture, images/screens/)</span></div>
+        <video class="shot-video" autoplay muted loop playsinline preload="metadata" poster="images/screens/homecare-services-poster.jpg">
+          <source src="images/screens/homecare-services-web.mp4" type="video/mp4">
+        </video>
       </div>
     </div>
 
@@ -744,6 +752,9 @@
       startX = null;
     }, { passive: true });
   })();
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.shot-video').forEach(function (v) { v.pause(); v.removeAttribute('autoplay'); });
+  }
 </script>
 
 </body>
