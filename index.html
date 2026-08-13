@@ -262,6 +262,26 @@
   .footer-links { display: flex; gap: 22px; }
   .footer-links a:hover { color: var(--brand-deep); }
 
+  /* ---------- Legal modals ---------- */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(20,25,35,0.55); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 100; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--white); border-radius: 18px; max-width: 760px; width: 100%; max-height: 86vh; display: flex; flex-direction: column; box-shadow: 0 30px 80px -20px rgba(0,0,0,0.4); }
+  .modal-head { padding: 24px 28px 12px; }
+  .modal-head h2 { font-size: 24px; }
+  .modal-head .eff { font-style: italic; color: var(--ink-muted); font-size: 13.5px; margin-top: 4px; }
+  .modal-x { float: right; background: var(--brand-tint); color: var(--brand-deep); border: none; width: 34px; height: 34px; border-radius: 9px; font-size: 20px; cursor: pointer; line-height: 1; }
+  .modal-x:hover { background: var(--brand-tint-2); }
+  .modal-body { overflow-y: auto; padding: 6px 28px 8px; margin: 0 6px; }
+  .modal-body h3 { font-family: "Inter", sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink); margin: 22px 0 8px; }
+  .modal-body h3:first-child { margin-top: 6px; }
+  .modal-body p { font-size: 14.5px; color: var(--ink-soft); margin-bottom: 10px; }
+  .modal-body ul { margin: 0 0 12px 22px; } .modal-body li { font-size: 14.5px; color: var(--ink-soft); margin-bottom: 7px; }
+  .modal-body strong { color: var(--ink); }
+  .modal-note { font-size: 12.5px; color: var(--ink-muted); margin-bottom: 14px; }
+  .modal-foot { padding: 14px 28px 20px; text-align: right; }
+  .modal-done { background: var(--brand); color: #fff; border: none; padding: 11px 26px; border-radius: 999px; font: inherit; font-weight: 600; font-size: 15px; cursor: pointer; }
+  .modal-done:hover { background: var(--brand-deep); }
+
   /* ---------- Mobile ---------- */
   @media (max-width: 768px) {
     section { padding: 60px 0; }
@@ -281,6 +301,7 @@
     .wrap { padding: 0 20px; }
     .lang-toggle button { padding: 6px 9px; }
     .press img, .partner-logos img { --logo-scale: 0.8; }
+    .modal-body { padding: 6px 18px; } .modal-head { padding: 20px 20px 10px; } .modal-foot { padding: 12px 20px 18px; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -543,11 +564,111 @@
   <div class="wrap footer-inner">
     <div data-i18n="foot_c">© 2026 CareCompass</div>
     <div class="footer-links">
-      <a href="/faq#privacy" data-i18n="foot_priv">Privacy</a>
+      <a href="#" onclick="openModal('privacyModal');return false;" data-i18n="foot_priv">Privacy</a>
+      <a href="#" onclick="openModal('disclaimerModal');return false;" data-i18n="foot_disclaimer">Disclaimer</a>
       <a href="/faq" data-i18n="foot_faq">FAQ</a>
     </div>
   </div>
 </footer>
+
+<div class="modal-overlay" id="privacyModal" onclick="if(event.target===this)closeModal('privacyModal')">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="privTitle">
+    <div class="modal-head">
+      <button class="modal-x" aria-label="Close" onclick="closeModal('privacyModal')">&times;</button>
+      <h2 id="privTitle">Privacy Policy</h2>
+      <div class="eff">Effective date: 13 August 2026</div>
+    </div>
+    <div class="modal-body">
+      <p class="modal-note" data-i18n="modal_note">This document is available in English only.</p>
+      <p>This Privacy Policy (the "Policy") describes how CareCompass ("we", "us", or "our") collects, uses, protects, and shares your personal data when you use our website and application at carecompass.sg and my.carecompass.sg (together, the "Platform"). We handle personal data in line with Singapore's Personal Data Protection Act (PDPA).</p>
+
+      <h3>Information we collect</h3>
+      <p>Depending on how you use the Platform, we may collect:</p>
+      <ul>
+        <li>Technical information such as your IP address, browser type and operating system, the pages you visit, and the date and time of access;</li>
+        <li>Information you provide to receive personalised help, for example a care recipient's living situation, household income, or care needs entered for subsidy checks and service recommendations;</li>
+        <li>Account information, if you choose to create an account, including your saved searches and bookmarks;</li>
+        <li>Information you send us directly through contact links or when subscribing to our newsletter, such as your email address.</li>
+      </ul>
+      <p>You can use CareCompass without creating an account. An account is optional, and enables personalised recommendations and saved searches.</p>
+
+      <h3>Information about the person you care for</h3>
+      <p>To give personalised recommendations, you may enter information about the person you care for, such as their living situation, household income, or wellbeing check-ins. Please share only what is needed, and only where you are comfortable doing so on their behalf. You can delete this information at any time from your profile.</p>
+
+      <h3>How we use your information</h3>
+      <p>We use personal data only for the purposes for which it was collected, including to:</p>
+      <ul>
+        <li>Provide and personalise CareCompass's guidance, subsidy matching, and service recommendations;</li>
+        <li>Respond to your enquiries and requests;</li>
+        <li>Understand and improve how the Platform is used;</li>
+        <li>Send you updates or newsletters, where you have chosen to receive them. You may unsubscribe at any time;</li>
+        <li>Comply with applicable laws and regulations.</li>
+      </ul>
+
+      <h3>Artificial intelligence</h3>
+      <p>CareCompass uses AI to answer questions and generate recommendations. To do this, the text you enter is sent to OpenAI for processing, which may take place outside Singapore.</p>
+      <p><strong>Your conversations are not used to train or fine-tune AI models.</strong> OpenAI may retain inputs for a limited period for its own operational and safety purposes, in line with its terms as an API provider.</p>
+
+      <h3>Cookies and analytics</h3>
+      <p>We use PostHog to understand how the Platform is used, and Vercel's analytics and infrastructure to serve and monitor the site, so we can improve CareCompass for caregivers. We also use Sentry to detect and diagnose technical errors. We do not use analytics to identify you personally, and we do not sell your data.</p>
+
+      <h3>How we protect your information</h3>
+      <p>We take reasonable and appropriate measures to protect personal data from unauthorised access, use, alteration, or disclosure, using industry-standard security technologies and procedures. Access to accounts is managed through authenticated sign-in. However, no method of transmission or storage is completely secure.</p>
+
+      <h3>How long we keep your information</h3>
+      <p>We keep your account information for as long as your account is active. If you delete your account, your personal data is deleted with it. Chat logs are deleted after 180 days. Where we no longer need data, we delete or anonymise it.</p>
+
+      <h3>Sharing your information</h3>
+      <p>We do not sell your personal data. We share it only with the service providers that make CareCompass work:</p>
+      <ul>
+        <li><strong>OpenAI</strong>, to process your questions and generate responses;</li>
+        <li><strong>Clerk</strong>, to manage sign-in and account authentication;</li>
+        <li><strong>Vercel</strong>, to host the Platform;</li>
+        <li><strong>Amazon Web Services</strong>, to host our database;</li>
+        <li><strong>OneMap and Google Maps</strong>, to find services near you and estimate travel times;</li>
+        <li><strong>PostHog</strong>, to understand how the Platform is used;</li>
+        <li><strong>Sentry</strong>, to detect and diagnose technical errors.</li>
+      </ul>
+      <p>Some of these providers process data outside Singapore. We may also disclose data to government authorities or law enforcement where required by law.</p>
+
+      <h3>Your rights</h3>
+      <p>You have the right to access and correct your personal data, to withdraw consent to its collection, use, or disclosure, and to request its deletion, subject to legal or operational requirements. You can access and update much of your information directly in your profile. For other requests, contact us below.</p>
+
+      <h3>Contact us</h3>
+      <p>If you have any questions about this Policy, wish to exercise your rights, or want to raise a concern about how we handle your data, please contact us at <strong>carecompass.bfg@gmail.com</strong>.</p>
+
+      <h3>Changes to this Policy</h3>
+      <p>We may update this Policy from time to time. Any changes will be posted on the Platform, and where appropriate we will notify you. Please review this Policy periodically.</p>
+    </div>
+    <div class="modal-foot"><button class="modal-done" onclick="closeModal('privacyModal')">Done</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="disclaimerModal" onclick="if(event.target===this)closeModal('disclaimerModal')">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="discTitle">
+    <div class="modal-head">
+      <button class="modal-x" aria-label="Close" onclick="closeModal('disclaimerModal')">&times;</button>
+      <h2 id="discTitle">Disclaimer</h2>
+    </div>
+    <div class="modal-body">
+      <p class="modal-note" data-i18n="modal_note">This document is available in English only.</p>
+      <h3>Information only, not professional advice</h3>
+      <p>CareCompass is an information and navigation aid to help caregivers find services, subsidies, and resources. It does not provide medical, legal, or financial advice, and is not a substitute for professional consultation. Always verify important decisions with a qualified professional or the relevant agency before acting.</p>
+
+      <h3>Accuracy of information</h3>
+      <p>We draw on trusted government and caregiver resources and take care to keep information accurate, but details such as subsidy amounts, eligibility criteria, operating hours, and availability can change. We cannot guarantee that all information is complete, current, or error-free, and CareCompass is provided on an "as is" basis.</p>
+
+      <h3>AI-generated responses</h3>
+      <p>Some responses are generated by AI. While grounded in trusted sources, AI can occasionally produce incomplete or inaccurate answers. Please use your judgement and confirm anything important with the relevant provider or agency.</p>
+
+      <h3>External services</h3>
+      <p>CareCompass may point you to third-party organisations and services. We are not responsible for the content, availability, or practices of those third parties.</p>
+
+      <p style="font-size:13px;color:var(--ink-muted);border-top:1px solid var(--line);padding-top:12px;">For how we handle your data, see our <a href="#" onclick="closeModal('disclaimerModal');openModal('privacyModal');return false;" style="color:var(--brand-deep);font-weight:600;">Privacy Policy</a>.</p>
+    </div>
+    <div class="modal-foot"><button class="modal-done" onclick="closeModal('disclaimerModal')">Done</button></div>
+  </div>
+</div>
 
 <script>
   var i18n = {
@@ -590,7 +711,8 @@
       c1_h: "Contact us", c1_p: "Questions, feedback, or media enquiries \u2014 we read every message.", c1_a: "Send a message \u2192",
       c2_h: "Stay up to date", c2_p: "Get occasional updates on new features and caregiving resources.", c2_a: "", tut: "Watch a quick tutorial", news_ph: "you@email.com", news_btn: "Subscribe", tele: "Join our Telegram group \u2192",
       c3_h: "Partner with us", c3_p: "For SSAs, government agencies, and community organisations exploring collaboration.", c3_a: "Start a conversation \u2192",
-      foot_c: "\u00a9 2026 CareCompass", foot_priv: "Privacy", foot_faq: "FAQ"
+      foot_c: "\u00a9 2026 CareCompass", foot_priv: "Privacy", foot_disclaimer: "Disclaimer", foot_faq: "FAQ",
+      modal_note: "This document is available in English only."
     },
     zh: {
       nav_how: "使用方式", nav_voices: "看护者心声", nav_about: "关于我们",
@@ -631,7 +753,8 @@
       c1_h: "联系我们", c1_p: "疑问、反馈或媒体咨询\u2014\u2014每一封来信我们都会认真阅读。", c1_a: "发送信息 \u2192",
       c2_h: "获取最新消息", c2_p: "不定期了解新功能与护理资源。", c2_a: "", tut: "观看快速教程", news_ph: "you@email.com", news_btn: "订阅", tele: "加入我们的 Telegram 群组 \u2192",
       c3_h: "与我们合作", c3_p: "欢迎社会服务机构、政府部门及社区组织洽谈合作。", c3_a: "开启对话 \u2192",
-      foot_c: "\u00a9 2026 CareCompass", foot_priv: "隐私政策", foot_faq: "常见问题"
+      foot_c: "\u00a9 2026 CareCompass", foot_priv: "隐私政策", foot_disclaimer: "免责声明", foot_faq: "常见问题",
+      modal_note: "本文件仅提供英文版本。"
     },
     ms: {
       nav_how: "Cara ia berfungsi", nav_voices: "Kisah penjaga", nav_about: "Tentang kami",
@@ -672,7 +795,8 @@
       c1_h: "Hubungi kami", c1_p: "Soalan, maklum balas atau pertanyaan media \u2014 setiap mesej kami baca.", c1_a: "Hantar mesej \u2192",
       c2_h: "Ikuti perkembangan", c2_p: "Dapatkan kemas kini sesekali tentang ciri baharu dan sumber penjagaan.", c2_a: "", tut: "Tonton tutorial ringkas", news_ph: "anda@emel.com", news_btn: "Langgan", tele: "Sertai kumpulan Telegram kami \u2192",
       c3_h: "Bekerjasama dengan kami", c3_p: "Untuk SSA, agensi kerajaan dan organisasi komuniti yang ingin meneroka kerjasama.", c3_a: "Mulakan perbualan \u2192",
-      foot_c: "\u00a9 2026 CareCompass", foot_priv: "Privasi", foot_faq: "Soalan lazim"
+      foot_c: "\u00a9 2026 CareCompass", foot_priv: "Privasi", foot_disclaimer: "Penafian", foot_faq: "Soalan lazim",
+      modal_note: "Dokumen ini hanya tersedia dalam bahasa Inggeris."
     },
     ta: {
       nav_how: "எப்படி செயல்படுகிறது", nav_voices: "பராமரிப்பாளர் கதைகள்", nav_about: "எங்களைப் பற்றி",
@@ -713,7 +837,8 @@
       c1_h: "தொடர்பு கொள்ளுங்கள்", c1_p: "கேள்விகள், கருத்துகள் அல்லது ஊடக விசாரணைகள் \u2014 ஒவ்வொரு செய்தியையும் படிக்கிறோம்.", c1_a: "செய்தி அனுப்ப \u2192",
       c2_h: "புதுப்பிப்புகள் பெற", c2_p: "புதிய அம்சங்கள் மற்றும் பராமரிப்பு வளங்கள் குறித்த அப்போதேதான புதுப்பிப்புகள்.", c2_a: "", tut: "குறுக்குபான பயிற்சியைப் பார்கோக", news_ph: "you@email.com", news_btn: "சந்தா", tele: "எங்கள் Telegram குழுவில் சேருங்கள் \u2192",
       c3_h: "எங்களுடன் கூட்டு சேருங்கள்", c3_p: "கூட்டுறவை ஆராயும் SSA-க்கள், அரசு நிறுவனங்கள் மற்றும் சமூக அமைப்புகளுக்கு.", c3_a: "உரையாடலைத் தொடங்க \u2192",
-      foot_c: "\u00a9 2026 CareCompass", foot_priv: "தனியுரிமை", foot_faq: "அடிக்கடி கேட்கப்படும் கேள்விகள்"
+      foot_c: "\u00a9 2026 CareCompass", foot_priv: "தனியுரிமை", foot_disclaimer: "பொறுப்புத் துறப்பு", foot_faq: "அடிக்கடி கேட்கப்படும் கேள்விகள்",
+      modal_note: "இந்த ஆவணம் ஆங்கிலத்தில் மட்டுமே கிடைக்கிறது."
     }
   };
 
@@ -739,6 +864,10 @@
       document.getElementById('navLinks').classList.remove('open');
     });
   });
+
+  function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ document.querySelectorAll('.modal-overlay.open').forEach(function(m){m.classList.remove('open');document.body.style.overflow='';}); }});
 
   var carIdx = 0, carN = 3;
   function carUpdate() {
