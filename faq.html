@@ -13,6 +13,7 @@
   :root {
     --ink: #2b3440; --ink-soft: #4b5563; --ink-muted: #6b7280;
     --brand: #2563eb; --brand-deep: #1d4ed8; --brand-tint: #e8effd; --brand-tint-2: #d3e0fb;
+    --app-blue: #2563eb; --app-blue-deep: #1d4ed8;
     --paper: #f4f6f8; --white: #ffffff; --line: #e5e7eb; --radius: 12px; --max: 860px;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -22,14 +23,36 @@
   h1, h2 { font-family: "Fraunces", Georgia, serif; font-weight: 500; line-height: 1.18; letter-spacing: -0.01em; }
   a { color: inherit; text-decoration: none; }
   .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 26px; border-radius: 999px;
+    font-weight: 600; font-size: 15px; cursor: pointer; border: none;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn-app { background: var(--app-blue); color: #fff; }
+  .btn-app:hover { background: var(--app-blue-deep); }
 
   nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.93); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
   .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 66px; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-  .logo { display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: 17px; }
+  .logo { display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: clamp(14px, 4.2vw, 17px); white-space: nowrap; }
   .logo img { width: 34px; height: 34px; }
-  .nav-right { display: flex; align-items: center; gap: 18px; font-size: 14.5px; font-weight: 500; color: var(--ink-soft); }
-  .nav-right a:hover { color: var(--brand-deep); }
-  .nav-cta { background: var(--brand); color: #fff; padding: 9px 18px; border-radius: 999px; font-weight: 600; }
+  .nav-links { display: flex; align-items: center; gap: 28px; font-size: 14.5px; font-weight: 500; color: var(--ink-soft); }
+  .nav-links a:hover { color: var(--brand-deep); }
+  .nav-cta { padding: 9px 20px; font-size: 14px; }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .hamburger { display: none; background: none; border: none; font-size: 24px; color: var(--ink); cursor: pointer; }
+
+  /* language toggle */
+  .lang-toggle {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 999px;
+    overflow: hidden; font-size: 12px; font-weight: 600; flex-shrink: 0;
+  }
+  .lang-toggle button {
+    border: none; background: var(--white); color: var(--ink-muted);
+    padding: 6px 11px; cursor: pointer; font: inherit;
+  }
+  .lang-toggle button.active { background: var(--brand); color: #fff; }
 
   header.hero { background: linear-gradient(var(--paper), var(--white)); padding: 56px 0 36px; text-align: center; }
   .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); margin-bottom: 12px; }
@@ -55,9 +78,9 @@
   .back { display: inline-flex; align-items: center; gap: 6px; margin-top: 30px; color: var(--brand-deep); font-weight: 600; font-size: 14.5px; }
 
   footer { border-top: 1px solid var(--line); padding: 30px 0; }
-  .footer-inner { max-width: 1080px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; font-size: 13.5px; color: var(--ink-muted); }
+  .footer-inner { max-width: 1080px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; font-size: 13.5px; color: var(--ink-muted); }
   .footer-inner a { cursor: pointer; } .footer-inner a:hover { color: var(--brand-deep); }
-  .footer-links { display: flex; gap: 20px; }
+  .footer-links { display: flex; gap: 22px; }
 
   .modal-overlay { position: fixed; inset: 0; background: rgba(20,25,35,0.55); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 100; }
   .modal-overlay.open { display: flex; }
@@ -73,16 +96,26 @@
   .modal-body p { font-size: 14.5px; color: var(--ink-soft); margin-bottom: 10px; }
   .modal-body ul { margin: 0 0 12px 22px; } .modal-body li { font-size: 14.5px; color: var(--ink-soft); margin-bottom: 7px; }
   .modal-body strong { color: var(--ink); }
+  .modal-note { font-size: 12.5px; color: var(--ink-muted); margin-bottom: 14px; }
   .modal-foot { padding: 14px 28px 20px; text-align: right; }
   .modal-done { background: var(--brand); color: #fff; border: none; padding: 11px 26px; border-radius: 999px; font: inherit; font-weight: 600; font-size: 15px; cursor: pointer; }
   .modal-done:hover { background: var(--brand-deep); }
 
+  @media (max-width: 768px) {
+    .nav-links { display: none; position: absolute; top: 66px; left: 0; right: 0;
+      flex-direction: column; align-items: stretch; gap: 0; background: #fff;
+      border-bottom: 1px solid var(--line); padding: 8px 0; }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 14px 24px; border-bottom: 1px solid var(--paper); }
+    .nav-links .nav-cta { margin: 12px 24px; justify-content: center; }
+    .hamburger { display: block; }
+    .lang-toggle button { padding: 6px 9px; }
+  }
   @media (max-width: 600px) {
-    .nav-inner { padding: 0 16px; } .nav-right { gap: 10px; font-size: 13px; } .nav-cta { padding: 8px 12px; }
+    .nav-inner { padding: 0 20px; } .nav-right { gap: 10px; }
     .faq summary { font-size: 16px; padding: 18px; } .faq .body { padding: 0 18px 18px; }
     .modal-body { padding: 6px 18px; } .modal-head { padding: 20px 20px 10px; } .modal-foot { padding: 12px 20px 18px; }
   }
-  @media (max-width: 380px) { .nav-right a[data-home] { display: none; } }
 </style>
 </head>
 <body>
@@ -91,28 +124,35 @@
   <div class="nav-inner">
     <a class="logo" href="/"><img src="data:image/png;base64,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" alt="CareCompass"> CareCompass</a>
     <div class="nav-right">
-      <a data-home href="/">Home</a>
-      <a class="nav-cta" href="https://my.carecompass.sg">Try CareCompass</a>
+      <div class="nav-links" id="navLinks">
+        <a href="/" data-i18n="nav_home">Home</a>
+        <a class="btn btn-app nav-cta" href="https://my.carecompass.sg" data-i18n="nav_open">Try CareCompass</a>
+      </div>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button data-lang="en" class="active" onclick="setLang('en')">EN</button>
+        <button data-lang="zh" onclick="setLang('zh')">中文</button>
+      </div>
+      <button class="hamburger" aria-label="Open menu" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
     </div>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow">FAQ</div>
-    <h1>Frequently asked questions</h1>
-    <p>How CareCompass finds and verifies its information, how we handle your data, and answers to common questions from caregivers.</p>
+    <div class="eyebrow" data-i18n="faq_eyebrow">FAQ</div>
+    <h1 data-i18n="faq_h">Frequently asked questions</h1>
+    <p data-i18n="faq_p">How CareCompass finds and verifies its information, how we handle your data, and answers to common questions from caregivers.</p>
   </div>
 </header>
 
 <main>
   <div class="wrap">
 
-    <div class="group-label">Trust and how it works</div>
+    <div class="group-label" data-i18n="faq_g1">Trust and how it works</div>
 
     <details class="faq" id="methodology" open>
-      <summary>How can we know that the responses are trustworthy?</summary>
-      <div class="body">
+      <summary data-i18n="faq1_q">How can we know that the responses are trustworthy?</summary>
+      <div class="body" data-i18n="faq1_a">
         <p>The responses are collated from, and restricted to, existing resources tied to government bodies or trusted caregiver websites. Some examples are caregiver guides and information from AIC, Dementia Singapore, MOH, SingHealth, Caregivers Alliance, Homage, and Jaga-Me.</p>
         <p>For specific guided paths, such as subsidy eligibility or personalised daycare options, we rigorously check all in-built information and paths. CareCompass also incorporates Google reviews of dementia daycare centres and ranks them accordingly in the interface as a first-cut measure of general trustworthiness.</p>
         <p class="note">The conversational assistant is fine-tuned using a retrieval-augmented generation (RAG) framework on these resources, with in-built heuristics to ensure it prioritises and adheres to content from these trusted datasets.</p>
@@ -120,8 +160,8 @@
     </details>
 
     <details class="faq">
-      <summary>How does this compare to general information online or tools like ChatGPT?</summary>
-      <div class="body">
+      <summary data-i18n="faq2_q">How does this compare to general information online or tools like ChatGPT?</summary>
+      <div class="body" data-i18n="faq2_a">
         <p>A typical general chatbot tends to give broad, generic overviews, and lacks suggested prompts, guided steps, and value-added features.</p>
         <p>CareCompass provides bite-sized, curated options in a local Singapore context, based on user profiles and tailored to each caregiver's needs and preferences.</p>
         <p>Beyond information, CareCompass also offers suggested use areas, such as making caregivers aware of subsidies, actionable steps, such as applying for subsidies, and other value-added features, such as tracking the status of a subsidy application.</p>
@@ -130,91 +170,91 @@
     </details>
 
     <details class="faq">
-      <summary>Does CareCompass give medical, legal, or financial advice?</summary>
-      <div class="body">
+      <summary data-i18n="faq3_q">Does CareCompass give medical, legal, or financial advice?</summary>
+      <div class="body" data-i18n="faq3_a">
         <p><strong>No.</strong> CareCompass is an information and navigation aid to help caregivers find services, subsidies, and resources more easily. It does not provide medical, legal, or financial advice, and it is not a substitute for professional consultation.</p>
         <p>For decisions about care, health, eligibility, or finances, please verify with the relevant professional, agency, or service provider before acting.</p>
       </div>
     </details>
 
     <details class="faq">
-      <summary>Patients usually aren't eligible for subsidies at dementia daycare centres unless they go through AIC. How does CareCompass connect them to such services?</summary>
-      <div class="body">
+      <summary data-i18n="faq4_q">Patients usually aren't eligible for subsidies at dementia daycare centres unless they go through AIC. How does CareCompass connect them to such services?</summary>
+      <div class="body" data-i18n="faq4_a">
         <p>Currently, some caregivers contact dementia daycare services proactively without going through AIC. Several of our interviewees did, and found the personalised search useful.</p>
         <p>We have also spoken with AIC and received initial positive feedback that CareCompass addresses a pressing need for many caregivers. Should AIC become an eventual partner, CareCompass could be integrated as an AIC offering to help streamline the subsidy application process.</p>
       </div>
     </details>
 
 
-    <div class="group-label">Using CareCompass</div>
+    <div class="group-label" data-i18n="faq_g2">Using CareCompass</div>
 
     <details class="faq">
-      <summary>Is CareCompass free to use?</summary>
-      <div class="body">
+      <summary data-i18n="faq5_q">Is CareCompass free to use?</summary>
+      <div class="body" data-i18n="faq5_a">
         <p>Yes, completely free. We know caregiving already carries a financial burden, and we want this to be a tool that helps rather than adds to it. CareCompass is funded and supported by our partners, including Open Government Products and better.sg.</p>
       </div>
     </details>
 
     <details class="faq">
-      <summary>Do I need an account to use it?</summary>
-      <div class="body">
+      <summary data-i18n="faq6_q">Do I need an account to use it?</summary>
+      <div class="body" data-i18n="faq6_a">
         <p>No. You can use CareCompass and browse the full catalogue of schemes and daycare and home care services in Singapore without signing up.</p>
         <p>Creating an account is optional, and lets you get personalised recommendations and save your searches to your profile.</p>
       </div>
     </details>
 
     <details class="faq">
-      <summary>What areas of Singapore does CareCompass cover?</summary>
-      <div class="body">
+      <summary data-i18n="faq7_q">What areas of Singapore does CareCompass cover?</summary>
+      <div class="body" data-i18n="faq7_a">
         <p>CareCompass covers services and schemes across Singapore, island-wide.</p>
       </div>
     </details>
 
-    <div class="group-label">Privacy and your data</div>
+    <div class="group-label" data-i18n="faq_g3">Privacy and your data</div>
 
     <details class="faq">
-      <summary>Is my information private and secure?</summary>
-      <div class="body">
+      <summary data-i18n="faq8_q">Is my information private and secure?</summary>
+      <div class="body" data-i18n="faq8_a">
         <p>We take your privacy seriously. We collect only what is needed to provide the service, protect it with appropriate security measures, and we do not sell your personal data.</p>
         <p>For full details, see our <a class="inline" href="#" onclick="openModal('privacyModal');return false;">Privacy Policy</a>.</p>
       </div>
     </details>
 
     <details class="faq">
-      <summary>What information does CareCompass collect?</summary>
-      <div class="body">
+      <summary data-i18n="faq9_q">What information does CareCompass collect?</summary>
+      <div class="body" data-i18n="faq9_a">
         <p>Depending on how you use CareCompass, this may include basic technical information such as browser type and pages visited, the details you enter to get personalised help such as a care recipient's living situation or household income for subsidy checks, and anything you send us directly such as an email or newsletter sign-up.</p>
         <p>The full list, and how each is used, is set out in our <a class="inline" href="#" onclick="openModal('privacyModal');return false;">Privacy Policy</a>.</p>
       </div>
     </details>
 
     <details class="faq">
-      <summary>Are my conversations used to train AI models?</summary>
-      <div class="body">
+      <summary data-i18n="faq10_q">Are my conversations used to train AI models?</summary>
+      <div class="body" data-i18n="faq10_a">
         <p><strong>No.</strong> Your conversations are not used to train or fine-tune AI models.</p>
         <p>To generate responses, what you type is sent to OpenAI for processing. Chat logs in CareCompass are deleted after 180 days. See our <a class="inline" href="#" onclick="openModal('privacyModal');return false;">Privacy Policy</a> for more detail.</p>
       </div>
     </details>
 
     <details class="faq">
-      <summary>How do I access, correct, or delete my data?</summary>
-      <div class="body">
+      <summary data-i18n="faq11_q">How do I access, correct, or delete my data?</summary>
+      <div class="body" data-i18n="faq11_a">
         <p>You can access and update your information in your profile at any time. If you delete your account, your personal data is deleted with it.</p>
         <p>For any other request, or to withdraw consent, contact us at <a class="inline" href="mailto:carecompass.bfg@gmail.com">carecompass.bfg@gmail.com</a>.</p>
       </div>
     </details>
 
-    <a class="back" href="/">&larr; Back to home</a>
+    <a class="back" href="/" data-i18n="faq_back">&larr; Back to home</a>
   </div>
 </main>
 
 <footer>
   <div class="footer-inner">
-    <div>&copy; 2026 CareCompass</div>
+    <div data-i18n="foot_c">&copy; 2026 CareCompass</div>
     <div class="footer-links">
-      <a onclick="openModal('privacyModal')">Privacy Policy</a>
-      <a onclick="openModal('disclaimerModal')">Disclaimer</a>
-      <a href="/faq">FAQ</a>
+      <a onclick="openModal('privacyModal')" data-i18n="foot_privacy">Privacy Policy</a>
+      <a onclick="openModal('disclaimerModal')" data-i18n="foot_disclaimer">Disclaimer</a>
+      <a href="/faq" data-i18n="foot_faq">FAQ</a>
     </div>
   </div>
 </footer>
@@ -227,6 +267,7 @@
       <div class="eff">Effective date: 13 August 2026</div>
     </div>
     <div class="modal-body">
+      <p class="modal-note" data-i18n="modal_note">This document is available in English only.</p>
       <p>This Privacy Policy (the "Policy") describes how CareCompass ("we", "us", or "our") collects, uses, protects, and shares your personal data when you use our website and application at carecompass.sg and my.carecompass.sg (together, the "Platform"). We handle personal data in line with Singapore's Personal Data Protection Act (PDPA).</p>
 
       <h3>Information we collect</h3>
@@ -298,6 +339,7 @@
       <h2 id="discTitle">Disclaimer</h2>
     </div>
     <div class="modal-body">
+      <p class="modal-note" data-i18n="modal_note">This document is available in English only.</p>
       <h3>Information only, not professional advice</h3>
       <p>CareCompass is an information and navigation aid to help caregivers find services, subsidies, and resources. It does not provide medical, legal, or financial advice, and is not a substitute for professional consultation. Always verify important decisions with a qualified professional or the relevant agency before acting.</p>
 
@@ -317,6 +359,178 @@
 </div>
 
 <script>
+  var i18n = {
+    en: {
+      nav_home: 'Home',
+      nav_open: 'Try CareCompass',
+      foot_c: '&copy; 2026 CareCompass',
+      foot_privacy: 'Privacy Policy',
+      foot_disclaimer: 'Disclaimer',
+      foot_faq: 'FAQ',
+      faq_eyebrow: 'FAQ',
+      faq_h: 'Frequently asked questions',
+      faq_p: 'How CareCompass finds and verifies its information, how we handle your data, and answers to common questions from caregivers.',
+      faq_g1: 'Trust and how it works',
+      faq_g2: 'Using CareCompass',
+      faq_g3: 'Privacy and your data',
+      faq1_q: 'How can we know that the responses are trustworthy?',
+      faq1_a: '<p>The responses are collated from, and restricted to, existing resources tied to government bodies or trusted caregiver websites. Some examples are caregiver guides and information from AIC, Dementia Singapore, MOH, SingHealth, Caregivers Alliance, Homage, and Jaga-Me.</p><p>For specific guided paths, such as subsidy eligibility or personalised daycare options, we rigorously check all in-built information and paths. CareCompass also incorporates Google reviews of dementia daycare centres and ranks them accordingly in the interface as a first-cut measure of general trustworthiness.</p><p class="note">The conversational assistant is fine-tuned using a retrieval-augmented generation (RAG) framework on these resources, with in-built heuristics to ensure it prioritises and adheres to content from these trusted datasets.</p>',
+      faq2_q: 'How does this compare to general information online or tools like ChatGPT?',
+      faq2_a: '<p>A typical general chatbot tends to give broad, generic overviews, and lacks suggested prompts, guided steps, and value-added features.</p><p>CareCompass provides bite-sized, curated options in a local Singapore context, based on user profiles and tailored to each caregiver\'s needs and preferences.</p><p>Beyond information, CareCompass also offers suggested use areas, such as making caregivers aware of subsidies, actionable steps, such as applying for subsidies, and other value-added features, such as tracking the status of a subsidy application.</p><p>The eventual aim is for CareCompass to become a handy "360 co-pilot" for caregivers, assisting them across the many contexts of caregiving.</p>',
+      faq3_q: 'Does CareCompass give medical, legal, or financial advice?',
+      faq3_a: '<p><strong>No.</strong> CareCompass is an information and navigation aid to help caregivers find services, subsidies, and resources more easily. It does not provide medical, legal, or financial advice, and it is not a substitute for professional consultation.</p><p>For decisions about care, health, eligibility, or finances, please verify with the relevant professional, agency, or service provider before acting.</p>',
+      faq4_q: 'Patients usually aren\'t eligible for subsidies at dementia daycare centres unless they go through AIC. How does CareCompass connect them to such services?',
+      faq4_a: '<p>Currently, some caregivers contact dementia daycare services proactively without going through AIC. Several of our interviewees did, and found the personalised search useful.</p><p>We have also spoken with AIC and received initial positive feedback that CareCompass addresses a pressing need for many caregivers. Should AIC become an eventual partner, CareCompass could be integrated as an AIC offering to help streamline the subsidy application process.</p>',
+      faq5_q: 'Is CareCompass free to use?',
+      faq5_a: '<p>Yes, completely free. We know caregiving already carries a financial burden, and we want this to be a tool that helps rather than adds to it. CareCompass is funded and supported by our partners, including Open Government Products and better.sg.</p>',
+      faq6_q: 'Do I need an account to use it?',
+      faq6_a: '<p>No. You can use CareCompass and browse the full catalogue of schemes and daycare and home care services in Singapore without signing up.</p><p>Creating an account is optional, and lets you get personalised recommendations and save your searches to your profile.</p>',
+      faq7_q: 'What areas of Singapore does CareCompass cover?',
+      faq7_a: '<p>CareCompass covers services and schemes across Singapore, island-wide.</p>',
+      faq8_q: 'Is my information private and secure?',
+      faq8_a: '<p>We take your privacy seriously. We collect only what is needed to provide the service, protect it with appropriate security measures, and we do not sell your personal data.</p><p>For full details, see our <a class="inline" href="#" onclick="openModal(\'privacyModal\');return false;">Privacy Policy</a>.</p>',
+      faq9_q: 'What information does CareCompass collect?',
+      faq9_a: '<p>Depending on how you use CareCompass, this may include basic technical information such as browser type and pages visited, the details you enter to get personalised help such as a care recipient\'s living situation or household income for subsidy checks, and anything you send us directly such as an email or newsletter sign-up.</p><p>The full list, and how each is used, is set out in our <a class="inline" href="#" onclick="openModal(\'privacyModal\');return false;">Privacy Policy</a>.</p>',
+      faq10_q: 'Are my conversations used to train AI models?',
+      faq10_a: '<p><strong>No.</strong> Your conversations are not used to train or fine-tune AI models.</p><p>To generate responses, what you type is sent to OpenAI for processing. Chat logs in CareCompass are deleted after 180 days. See our <a class="inline" href="#" onclick="openModal(\'privacyModal\');return false;">Privacy Policy</a> for more detail.</p>',
+      faq11_q: 'How do I access, correct, or delete my data?',
+      faq11_a: '<p>You can access and update your information in your profile at any time. If you delete your account, your personal data is deleted with it.</p><p>For any other request, or to withdraw consent, contact us at <a class="inline" href="mailto:carecompass.bfg@gmail.com">carecompass.bfg@gmail.com</a>.</p>',
+      faq_back: '&larr; Back to home',
+      modal_note: 'This document is available in English only.'
+    },
+    zh: {
+      nav_home: '首页',
+      nav_open: '试用 CareCompass',
+      foot_c: '&copy; 2026 CareCompass',
+      foot_privacy: '隐私政策',
+      foot_disclaimer: '免责声明',
+      foot_faq: '常见问题',
+      faq_eyebrow: '常见问题',
+      faq_h: '常见问题解答',
+      faq_p: '了解 CareCompass 如何查找和核实信息、如何处理您的数据，以及看护者常见问题的解答。',
+      faq_g1: '信任与运作方式',
+      faq_g2: '使用 CareCompass',
+      faq_g3: '隐私与您的数据',
+      faq1_q: '我们如何确定这些回答是可信的？',
+      faq1_a: '<p>这些回答均整理自政府机构或可信赖的看护者网站所提供的现有资源，且严格限定于这些来源。例如来自 AIC（护联中心）、新加坡失智症机构、卫生部（MOH）、新加坡保健集团（SingHealth）、Caregivers Alliance、Homage 和 Jaga-Me 的看护指南与信息。</p><p>对于特定的引导流程，例如津贴资格审核或个性化日间照护选项，我们会严格核查所有内置信息与流程路径。CareCompass 也会纳入失智症日间照护中心的 Google 评价，并据此在界面中排序，作为整体可信度的初步参考指标。</p><p class="note">该对话式助手基于检索增强生成（RAG）框架，针对上述资源进行微调，并内置启发式规则，确保其优先采用并严格遵循这些可信数据集中的内容。</p>',
+      faq2_q: '这与网络上的一般信息，或像 ChatGPT 这样的工具相比有什么不同？',
+      faq2_a: '<p>一般的聊天机器人往往只能给出宽泛、笼统的概述，缺乏建议提示、引导步骤和增值功能。</p><p>CareCompass 基于用户资料，为您提供贴合新加坡本地情境、经过精选的小份信息，并根据每位看护者的需求与偏好量身定制。</p><p>除了提供信息，CareCompass 还会主动建议使用场景，例如让看护者了解可申请的津贴、提供可采取的行动步骤（例如申请津贴），以及其他增值功能，例如追踪津贴申请的进度。</p><p>我们的目标是让 CareCompass 最终成为看护者随身的"全方位副驾驶"，在照护过程的各个环节为他们提供协助。</p>',
+      faq3_q: 'CareCompass 会提供医疗、法律或财务建议吗？',
+      faq3_a: '<p><strong>不会。</strong>CareCompass 是一款信息与导航辅助工具，旨在帮助看护者更轻松地找到相关服务、津贴与资源。它不提供医疗、法律或财务建议，也不能替代专业咨询。</p><p>在做出与护理、健康、资格或财务相关的决定前，请先向相关专业人士、机构或服务提供方核实信息。</p>',
+      faq4_q: '患者通常需要通过 AIC 才能获得失智症日间照护中心的津贴资格。CareCompass 如何帮助他们联系到这些服务？',
+      faq4_a: '<p>目前，一些看护者会主动直接联系失智症日间照护服务，而无需通过 AIC。我们的多位受访者正是如此，并表示这种个性化搜索方式很有帮助。</p><p>我们也已与 AIC 进行沟通，并获得初步的正面反馈，认为 CareCompass 满足了许多看护者的迫切需求。若 AIC 日后成为合作伙伴，CareCompass 未来有望作为 AIC 的服务之一，帮助简化津贴申请流程。</p>',
+      faq5_q: '使用 CareCompass 需要付费吗？',
+      faq5_a: '<p>完全免费。我们深知照护本身已带来经济负担，因此希望这款工具能切实帮助您，而不是增加负担。CareCompass 由我们的合作伙伴提供资金与支持，包括 Open Government Products 与 better.sg。</p>',
+      faq6_q: '使用 CareCompass 需要注册账户吗？',
+      faq6_a: '<p>不需要。您无需注册即可使用 CareCompass，并浏览新加坡各类津贴计划及日间照护、居家护理服务的完整目录。</p><p>创建账户是可选的，可让您获得个性化推荐，并将搜索记录保存至您的个人资料中。</p>',
+      faq7_q: 'CareCompass 覆盖新加坡哪些地区？',
+      faq7_a: '<p>CareCompass 覆盖全岛的服务与计划信息。</p>',
+      faq8_q: '我的信息是否私密且安全？',
+      faq8_a: '<p>我们高度重视您的隐私。我们仅收集提供服务所需的信息，并采取适当的安全措施加以保护，绝不出售您的个人数据。</p><p>完整详情请参阅我们的<a class="inline" href="#" onclick="openModal(\'privacyModal\');return false;">隐私政策</a>。</p>',
+      faq9_q: 'CareCompass 会收集哪些信息？',
+      faq9_a: '<p>根据您使用 CareCompass 的方式，我们可能收集的信息包括：浏览器类型、访问页面等基本技术信息；为获得个性化帮助而输入的详情，例如受照护者的居住情况或家庭收入（用于津贴审核）；以及您通过联系方式或订阅通讯直接发送给我们的信息，例如您的电子邮箱地址。</p><p>完整清单及各项信息的使用方式，详见我们的<a class="inline" href="#" onclick="openModal(\'privacyModal\');return false;">隐私政策</a>。</p>',
+      faq10_q: '我的对话内容会被用于训练 AI 模型吗？',
+      faq10_a: '<p><strong>不会。</strong>您的对话内容不会被用于训练或微调 AI 模型。</p><p>为生成回复，您输入的内容会被发送至 OpenAI 进行处理。CareCompass 中的聊天记录会在 180 天后删除。详情请参阅我们的<a class="inline" href="#" onclick="openModal(\'privacyModal\');return false;">隐私政策</a>。</p>',
+      faq11_q: '我该如何查看、更正或删除我的数据？',
+      faq11_a: '<p>您可以随时在个人资料中查看并更新您的信息。若您删除账户，您的个人数据也将随之删除。</p><p>如有其他请求，或希望撤回同意，请通过 <a class="inline" href="mailto:carecompass.bfg@gmail.com">carecompass.bfg@gmail.com</a> 与我们联系。</p>',
+      faq_back: '&larr; 返回首页',
+      modal_note: '本文件仅提供英文版本。'
+    },
+    ms: {
+      nav_home: 'Laman Utama',
+      nav_open: 'Cuba CareCompass',
+      foot_c: '&copy; 2026 CareCompass',
+      foot_privacy: 'Dasar Privasi',
+      foot_disclaimer: 'Penafian',
+      foot_faq: 'Soalan lazim',
+      faq_eyebrow: 'Soalan Lazim',
+      faq_h: 'Soalan lazim',
+      faq_p: 'Cara CareCompass mencari dan mengesahkan maklumatnya, cara kami mengendalikan data anda, dan jawapan kepada soalan lazim daripada penjaga.',
+      faq_g1: 'Kepercayaan dan cara ia berfungsi',
+      faq_g2: 'Menggunakan CareCompass',
+      faq_g3: 'Privasi dan data anda',
+      faq1_q: 'Bagaimana kita tahu bahawa jawapan yang diberikan boleh dipercayai?',
+      faq1_a: '<p>Jawapan dikumpulkan daripada, dan terhad kepada, sumber sedia ada yang berkaitan dengan badan kerajaan atau laman web penjaga yang dipercayai. Antara contohnya ialah panduan penjaga dan maklumat daripada AIC, Dementia Singapore, MOH, SingHealth, Caregivers Alliance, Homage, dan Jaga-Me.</p><p>Bagi laluan berpandu yang khusus, seperti kelayakan subsidi atau pilihan jagaan harian yang diperibadikan, kami menyemak dengan teliti semua maklumat dan laluan yang terbina di dalamnya. CareCompass juga menggabungkan ulasan Google bagi pusat jagaan harian demensia dan menyusunnya mengikut kedudukan dalam antara muka sebagai ukuran awal kebolehpercayaan am.</p><p class="note">Pembantu perbualan ini ditala halus menggunakan rangka kerja retrieval-augmented generation (RAG) berdasarkan sumber-sumber ini, dengan heuristik terbina dalam untuk memastikan ia mengutamakan dan berpegang kepada kandungan daripada set data yang dipercayai ini.</p>',
+      faq2_q: 'Bagaimana ini berbeza daripada maklumat am dalam talian atau alat seperti ChatGPT?',
+      faq2_a: '<p>Chatbot am biasanya memberikan gambaran keseluruhan yang luas dan generik, serta tiada gesaan cadangan, langkah berpandu, dan ciri bernilai tambah.</p><p>CareCompass menyediakan pilihan yang ringkas dan terpilih dalam konteks tempatan Singapura, berdasarkan profil pengguna dan disesuaikan dengan keperluan serta pilihan setiap penjaga.</p><p>Selain maklumat, CareCompass turut menawarkan cadangan bidang penggunaan, seperti memaklumkan penjaga tentang subsidi, langkah tindakan seperti memohon subsidi, serta ciri bernilai tambah lain, seperti menjejaki status permohonan subsidi.</p><p>Matlamat akhirnya ialah menjadikan CareCompass sebagai "juruterbang bantu 360" yang praktikal untuk penjaga, membantu mereka merentasi pelbagai konteks penjagaan.</p>',
+      faq3_q: 'Adakah CareCompass memberikan nasihat perubatan, undang-undang, atau kewangan?',
+      faq3_a: '<p><strong>Tidak.</strong> CareCompass ialah bantuan maklumat dan navigasi untuk membantu penjaga mencari perkhidmatan, subsidi, dan sumber dengan lebih mudah. Ia tidak memberikan nasihat perubatan, undang-undang, atau kewangan, dan bukan pengganti kepada rundingan profesional.</p><p>Untuk keputusan berkaitan penjagaan, kesihatan, kelayakan, atau kewangan, sila sahkan dengan profesional, agensi, atau penyedia perkhidmatan yang berkaitan sebelum bertindak.</p>',
+      faq4_q: 'Pesakit biasanya tidak layak mendapat subsidi di pusat jagaan harian demensia melainkan melalui AIC. Bagaimana CareCompass menghubungkan mereka dengan perkhidmatan sebegini?',
+      faq4_a: '<p>Pada masa ini, sesetengah penjaga menghubungi perkhidmatan jagaan harian demensia secara proaktif tanpa melalui AIC. Beberapa responden temu bual kami berbuat demikian, dan mendapati carian yang diperibadikan ini berguna.</p><p>Kami juga telah berbincang dengan AIC dan menerima maklum balas positif awal bahawa CareCompass menangani keperluan mendesak bagi ramai penjaga. Sekiranya AIC menjadi rakan kongsi kelak, CareCompass boleh disepadukan sebagai tawaran AIC untuk membantu melancarkan proses permohonan subsidi.</p>',
+      faq5_q: 'Adakah CareCompass percuma untuk digunakan?',
+      faq5_a: '<p>Ya, sepenuhnya percuma. Kami tahu penjagaan sudah membawa beban kewangan, dan kami mahu ini menjadi alat yang membantu, bukan menambah beban tersebut. CareCompass dibiayai dan disokong oleh rakan kongsi kami, termasuk Open Government Products dan better.sg.</p>',
+      faq6_q: 'Perlukah saya mempunyai akaun untuk menggunakannya?',
+      faq6_a: '<p>Tidak. Anda boleh menggunakan CareCompass dan melayari katalog penuh skim serta perkhidmatan jagaan harian dan jagaan di rumah di Singapura tanpa mendaftar.</p><p>Mencipta akaun adalah pilihan, dan membolehkan anda mendapat cadangan yang diperibadikan serta menyimpan carian anda ke profil anda.</p>',
+      faq7_q: 'Kawasan mana di Singapura yang diliputi oleh CareCompass?',
+      faq7_a: '<p>CareCompass meliputi perkhidmatan dan skim di seluruh Singapura, merentasi pulau.</p>',
+      faq8_q: 'Adakah maklumat saya peribadi dan selamat?',
+      faq8_a: '<p>Kami mengambil serius privasi anda. Kami hanya mengumpul apa yang diperlukan untuk menyediakan perkhidmatan ini, melindunginya dengan langkah keselamatan yang sewajarnya, dan kami tidak menjual data peribadi anda.</p><p>Untuk butiran lengkap, lihat <a class="inline" href="#" onclick="openModal(\'privacyModal\');return false;">Dasar Privasi</a> kami.</p>',
+      faq9_q: 'Maklumat apakah yang dikumpul oleh CareCompass?',
+      faq9_a: '<p>Bergantung kepada cara anda menggunakan CareCompass, ini mungkin termasuk maklumat teknikal asas seperti jenis pelayar dan halaman yang dilawati, butiran yang anda masukkan untuk mendapatkan bantuan diperibadikan seperti situasi kediaman atau pendapatan isi rumah penerima jagaan bagi semakan subsidi, dan apa jua yang anda hantar terus kepada kami seperti e-mel atau pendaftaran surat berita.</p><p>Senarai penuh, dan cara setiap satu digunakan, dinyatakan dalam <a class="inline" href="#" onclick="openModal(\'privacyModal\');return false;">Dasar Privasi</a> kami.</p>',
+      faq10_q: 'Adakah perbualan saya digunakan untuk melatih model AI?',
+      faq10_a: '<p><strong>Tidak.</strong> Perbualan anda tidak digunakan untuk melatih atau menala halus model AI.</p><p>Untuk menjana jawapan, apa yang anda taip dihantar kepada OpenAI untuk diproses. Log sembang dalam CareCompass dipadam selepas 180 hari. Lihat <a class="inline" href="#" onclick="openModal(\'privacyModal\');return false;">Dasar Privasi</a> kami untuk butiran lanjut.</p>',
+      faq11_q: 'Bagaimana saya boleh mengakses, membetulkan, atau memadam data saya?',
+      faq11_a: '<p>Anda boleh mengakses dan mengemas kini maklumat anda dalam profil anda pada bila-bila masa. Jika anda memadam akaun anda, data peribadi anda turut dipadam.</p><p>Untuk sebarang permintaan lain, atau untuk menarik balik persetujuan, hubungi kami di <a class="inline" href="mailto:carecompass.bfg@gmail.com">carecompass.bfg@gmail.com</a>.</p>',
+      faq_back: '&larr; Kembali ke laman utama',
+      modal_note: 'Dokumen ini hanya tersedia dalam bahasa Inggeris.'
+    },
+    ta: {
+      nav_home: 'முகப்பு',
+      nav_open: 'CareCompass முயலுங்கள்',
+      foot_c: '&copy; 2026 CareCompass',
+      foot_privacy: 'தனியுரிமைக் கொள்கை',
+      foot_disclaimer: 'பொறுப்புத் துறப்பு',
+      foot_faq: 'அடிக்கடி கேட்கப்படும் கேள்விகள்',
+      faq_eyebrow: 'அடிக்கடி கேட்கப்படும் கேள்விகள்',
+      faq_h: 'அடிக்கடி கேட்கப்படும் கேள்விகள்',
+      faq_p: 'CareCompass தகவல்களை எவ்வாறு கண்டறிந்து சரிபார்க்கிறது, உங்கள் தரவை நாங்கள் எவ்வாறு கையாளுகிறோம், மற்றும் பராமரிப்பாளர்களின் பொதுவான கேள்விகளுக்கான பதில்கள்.',
+      faq_g1: 'நம்பிக்கை மற்றும் இது எவ்வாறு செயல்படுகிறது',
+      faq_g2: 'CareCompass ஐப் பயன்படுத்துதல்',
+      faq_g3: 'தனியுரிமை மற்றும் உங்கள் தரவு',
+      faq1_q: 'பதில்கள் நம்பகமானவை என்பதை நாம் எவ்வாறு அறியலாம்?',
+      faq1_a: '<p>பதில்கள் அரசு அமைப்புகள் அல்லது நம்பகமான பராமரிப்பாளர் வலைத்தளங்களுடன் தொடர்புடைய தற்போதுள்ள மூலங்களிலிருந்து மட்டுமே தொகுக்கப்பட்டு, அவற்றுக்கு மட்டுமே கட்டுப்படுத்தப்பட்டுள்ளன. AIC, Dementia Singapore, MOH, SingHealth, Caregivers Alliance, Homage மற்றும் Jaga-Me ஆகியவற்றின் பராமரிப்பாளர் வழிகாட்டிகள் மற்றும் தகவல்கள் சில உதாரணங்கள்.</p><p>மானிய தகுதி அல்லது தனிப்பயனாக்கப்பட்ட பகல் பராமரிப்பு விருப்பங்கள் போன்ற குறிப்பிட்ட வழிகாட்டப்பட்ட பாதைகளுக்கு, நாங்கள் உள்ளமைக்கப்பட்ட அனைத்து தகவல்கள் மற்றும் பாதைகளையும் கடுமையாக சரிபார்க்கிறோம். CareCompass, மறதிநோய் பகல் பராமரிப்பு மையங்களின் Google மதிப்புரைகளையும் இணைத்து, பொது நம்பகத்தன்மையின் முதற்கட்ட அளவீடாக இடைமுகத்தில் அதற்கேற்ப தரவரிசைப்படுத்துகிறது.</p><p class="note">இந்த உரையாடல் உதவியாளர், மீட்டெடுப்பு-மேம்படுத்தப்பட்ட உருவாக்க (RAG) கட்டமைப்பைப் பயன்படுத்தி இந்த மூலங்களின் அடிப்படையில் நுணுக்கமாக பயிற்றுவிக்கப்பட்டுள்ளது, இந்த நம்பகமான தரவுத்தொகுப்புகளிலிருந்து வரும் உள்ளடக்கத்திற்கு முன்னுரிமை அளித்து அதைக் கடைப்பிடிப்பதை உறுதி செய்ய உள்ளமைக்கப்பட்ட நெறிமுறைகளுடன்.</p>',
+      faq2_q: 'இது இணையத்தில் உள்ள பொதுவான தகவல் அல்லது ChatGPT போன்ற கருவிகளுடன் எவ்வாறு ஒப்பிடப்படுகிறது?',
+      faq2_a: '<p>ஒரு பொதுவான chatbot பரந்த, பொதுவான கண்ணோட்டங்களை வழங்குகிறது, மேலும் பரிந்துரைக்கப்பட்ட வழிகாட்டல்கள், வழிகாட்டப்பட்ட படிகள் மற்றும் மதிப்புக் கூட்டும் அம்சங்கள் இல்லாமல் உள்ளது.</p><p>CareCompass, பயனர் விவரங்களின் அடிப்படையில் சிங்கப்பூர் உள்ளூர் சூழலில், ஒவ்வொரு பராமரிப்பாளரின் தேவைகள் மற்றும் விருப்பங்களுக்கு ஏற்ப தேர்ந்தெடுக்கப்பட்ட, சிறு அளவிலான விருப்பங்களை வழங்குகிறது.</p><p>தகவலைத் தாண்டி, CareCompass, மானியங்கள் குறித்து பராமரிப்பாளர்களுக்கு விழிப்புணர்வு ஏற்படுத்துதல் போன்ற பரிந்துரைக்கப்பட்ட பயன்பாட்டுப் பகுதிகளையும், மானியங்களுக்கு விண்ணப்பிப்பது போன்ற செயல்படக்கூடிய படிகளையும், மானிய விண்ணப்ப நிலையைக் கண்காணிப்பது போன்ற பிற மதிப்புக் கூட்டும் அம்சங்களையும் வழங்குகிறது.</p><p>இறுதி இலக்கு, பராமரிப்பாளர்களுக்கு அவர்களின் பராமரிப்பு பயணத்தின் பல்வேறு சூழல்களில் உதவும் ஒரு "360 உதவி இணையர்" ஆக CareCompass மாறுவதாகும்.</p>',
+      faq3_q: 'CareCompass மருத்துவ, சட்ட அல்லது நிதி ஆலோசனை வழங்குகிறதா?',
+      faq3_a: '<p><strong>இல்லை.</strong> CareCompass, பராமரிப்பாளர்கள் சேவைகள், மானியங்கள் மற்றும் வளங்களை எளிதாகக் கண்டறிய உதவும் ஒரு தகவல் மற்றும் வழிசெலுத்தல் கருவி. இது மருத்துவ, சட்ட அல்லது நிதி ஆலோசனையை வழங்காது, மேலும் தொழில்முறை ஆலோசனைக்கு மாற்றாக இல்லை.</p><p>பராமரிப்பு, உடல்நலம், தகுதி அல்லது நிதி தொடர்பான முடிவுகளுக்கு, செயல்படுவதற்கு முன் தொடர்புடைய நிபுணர், நிறுவனம் அல்லது சேவை வழங்குநரிடம் உறுதிப்படுத்தவும்.</p>',
+      faq4_q: 'மறதிநோய் பகல் பராமரிப்பு மையங்களில் நோயாளிகள் பொதுவாக AIC மூலம் செல்லாத வரை மானியங்களுக்குத் தகுதியற்றவர்களாக இருப்பார்கள். CareCompass அவர்களை இத்தகைய சேவைகளுடன் எவ்வாறு இணைக்கிறது?',
+      faq4_a: '<p>தற்போது, சில பராமரிப்பாளர்கள் AIC மூலம் செல்லாமல் மறதிநோய் பகல் பராமரிப்பு சேவைகளை முன்கூட்டியே தொடர்பு கொள்கின்றனர். எங்கள் பேட்டியாளர்களில் பலர் இவ்வாறு செய்தனர், மேலும் தனிப்பயனாக்கப்பட்ட தேடல் பயனுள்ளதாக இருந்ததைக் கண்டறிந்தனர்.</p><p>நாங்கள் AIC உடனும் பேசியுள்ளோம், மேலும் CareCompass பல பராமரிப்பாளர்களுக்கு அவசரமான தேவையை நிவர்த்தி செய்கிறது என்ற ஆரம்ப நேர்மறையான கருத்தைப் பெற்றுள்ளோம். AIC இறுதியில் ஒரு பங்காளராக மாறினால், மானிய விண்ணப்ப செயல்முறையை நெறிப்படுத்த உதவும் வகையில் CareCompass ஒரு AIC சேவையாக ஒருங்கிணைக்கப்படலாம்.</p>',
+      faq5_q: 'CareCompass பயன்படுத்த இலவசமா?',
+      faq5_a: '<p>ஆம், முழுவதுமாக இலவசம். பராமரிப்பு ஏற்கனவே நிதிச் சுமையைக் கொண்டுள்ளது என்பதை நாங்கள் அறிவோம், மேலும் இது அச்சுமையைக் கூட்டுவதற்குப் பதிலாக உதவும் ஒரு கருவியாக இருக்க வேண்டும் என விரும்புகிறோம். CareCompass, Open Government Products மற்றும் better.sg உட்பட எங்கள் பங்காளர்களால் நிதியளிக்கப்பட்டு ஆதரிக்கப்படுகிறது.</p>',
+      faq6_q: 'இதைப் பயன்படுத்த எனக்கு ஒரு கணக்கு தேவையா?',
+      faq6_a: '<p>இல்லை. பதிவு செய்யாமலேயே நீங்கள் CareCompass ஐப் பயன்படுத்தி, சிங்கப்பூரில் உள்ள திட்டங்கள் மற்றும் பகல் பராமரிப்பு மற்றும் இல்லப் பராமரிப்பு சேவைகளின் முழு பட்டியலையும் உலாவலாம்.</p><p>கணக்கை உருவாக்குவது விருப்பத்தேர்வு ஆகும், இது தனிப்பயனாக்கப்பட்ட பரிந்துரைகளைப் பெறவும், உங்கள் தேடல்களை உங்கள் சுயவிவரத்தில் சேமிக்கவும் அனுமதிக்கிறது.</p>',
+      faq7_q: 'CareCompass சிங்கப்பூரின் எந்தெந்த பகுதிகளை உள்ளடக்கியது?',
+      faq7_a: '<p>CareCompass சிங்கப்பூர் முழுவதும், தீவு தழுவிய சேவைகள் மற்றும் திட்டங்களை உள்ளடக்குகிறது.</p>',
+      faq8_q: 'எனது தகவல் தனிப்பட்டதாகவும் பாதுகாப்பானதாகவும் இருக்கிறதா?',
+      faq8_a: '<p>உங்கள் தனியுரிமையை நாங்கள் தீவிரமாக எடுத்துக்கொள்கிறோம். சேவையை வழங்க தேவையானதை மட்டுமே நாங்கள் சேகரிக்கிறோம், அதைப் பொருத்தமான பாதுகாப்பு நடவடிக்கைகளுடன் பாதுகாக்கிறோம், மேலும் உங்கள் தனிப்பட்ட தரவை நாங்கள் விற்பதில்லை.</p><p>முழு விவரங்களுக்கு, எங்கள் <a class="inline" href="#" onclick="openModal(\'privacyModal\');return false;">தனியுரிமைக் கொள்கையைப்</a> பார்க்கவும்.</p>',
+      faq9_q: 'CareCompass என்ன தகவல்களை சேகரிக்கிறது?',
+      faq9_a: '<p>நீங்கள் CareCompass ஐ எவ்வாறு பயன்படுத்துகிறீர்கள் என்பதைப் பொறுத்து, இதில் உலாவி வகை மற்றும் பார்வையிட்ட பக்கங்கள் போன்ற அடிப்படை தொழில்நுட்பத் தகவல்கள், மானிய சரிபார்ப்புகளுக்காக பராமரிப்பு பெறுநரின் வாழ்க்கை சூழ்நிலை அல்லது வீட்டு வருமானம் போன்ற தனிப்பயனாக்கப்பட்ட உதவிக்காக நீங்கள் உள்ளிடும் விவரங்கள், மற்றும் மின்னஞ்சல் அல்லது செய்திமடல் பதிவு போன்ற நீங்கள் நேரடியாக எங்களுக்கு அனுப்பும் எதுவும் அடங்கும்.</p><p>முழுமையான பட்டியலும், ஒவ்வொன்றும் எவ்வாறு பயன்படுத்தப்படுகிறது என்பதும் எங்கள் <a class="inline" href="#" onclick="openModal(\'privacyModal\');return false;">தனியுரிமைக் கொள்கையில்</a> கூறப்பட்டுள்ளது.</p>',
+      faq10_q: 'எனது உரையாடல்கள் AI மாதிரிகளைப் பயிற்றுவிக்கப் பயன்படுத்தப்படுகின்றனவா?',
+      faq10_a: '<p><strong>இல்லை.</strong> உங்கள் உரையாடல்கள் AI மாதிரிகளைப் பயிற்றுவிக்க அல்லது நுணுக்கமாக பயிற்றுவிக்கப் பயன்படுத்தப்படுவதில்லை.</p><p>பதில்களை உருவாக்க, நீங்கள் தட்டச்சு செய்வது செயலாக்கத்திற்காக OpenAI க்கு அனுப்பப்படுகிறது. CareCompass இல் உள்ள அரட்டை பதிவுகள் 180 நாட்களுக்குப் பிறகு நீக்கப்படும். மேலும் விவரங்களுக்கு எங்கள் <a class="inline" href="#" onclick="openModal(\'privacyModal\');return false;">தனியுரிமைக் கொள்கையைப்</a> பார்க்கவும்.</p>',
+      faq11_q: 'எனது தரவை நான் எவ்வாறு அணுகுவது, திருத்துவது அல்லது நீக்குவது?',
+      faq11_a: '<p>எந்த நேரத்திலும் உங்கள் சுயவிவரத்தில் உங்கள் தகவலை நீங்கள் அணுகி புதுப்பிக்கலாம். உங்கள் கணக்கை நீங்கள் நீக்கினால், உங்கள் தனிப்பட்ட தரவும் அதனுடன் நீக்கப்படும்.</p><p>வேறு எந்த கோரிக்கைக்கும், அல்லது ஒப்புதலைத் திரும்பப் பெற, <a class="inline" href="mailto:carecompass.bfg@gmail.com">carecompass.bfg@gmail.com</a> என்ற முகவரியில் எங்களைத் தொடர்பு கொள்ளவும்.</p>',
+      faq_back: '&larr; முகப்புக்குத் திரும்ப',
+      modal_note: 'இந்த ஆவணம் ஆங்கிலத்தில் மட்டுமே கிடைக்கிறது.'
+    }
+  };
+
+  function setLang(lang) {
+    var dict = i18n[lang];
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      if (dict[key]) el.innerHTML = dict[key];
+    });
+    document.documentElement.lang = ({ en: 'en', zh: 'zh-Hans', ms: 'ms', ta: 'ta' })[lang];
+    document.querySelectorAll('.lang-toggle button').forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+    });
+  }
+
+  document.querySelectorAll('#navLinks a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
   function openModal(id){ document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; }
   function closeModal(id){ document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; }
   document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ document.querySelectorAll('.modal-overlay.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow='';}); }});
