@@ -68,7 +68,7 @@
 
   /* ---------- hero ---------- */
   .hero{position:relative;isolation:isolate;min-height:min(76vh,640px);display:flex;align-items:flex-end;padding:120px 0 56px}
-  .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%;z-index:-2}
+  .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 38%;z-index:-2}
   .hero::before{
     content:"";position:absolute;inset:0;z-index:-1;
     background:
@@ -76,15 +76,17 @@
   }
   .hero-in{max-width:640px;color:#fff}
   .hero h1{font-size:clamp(36px,5.6vw,64px);color:#fff;text-wrap:balance}
+  .hero h1 em{font-style:normal;color:#86BBFF}
   .hero p{margin-top:20px;color:rgba(255,255,255,.88);font-size:clamp(16px,1.6vw,19px);max-width:52ch;line-height:1.55}
   .hero-actions{margin-top:30px;display:flex;gap:12px;flex-wrap:wrap}
-  .photo-credit{position:absolute;right:14px;bottom:10px;font-size:11px;color:rgba(255,255,255,.55)}
-
+  
   /* ---------- press ---------- */
   .press{border-bottom:1px solid var(--line);padding:22px 0}
   .press-in{display:flex;align-items:center;gap:clamp(20px,4vw,44px);flex-wrap:wrap}
   .press-label{font-size:13px;color:var(--ink-mute);white-space:nowrap}
-  .press img{height:26px;max-width:132px;width:auto;object-fit:contain;opacity:.6;filter:grayscale(1);transition:opacity .15s}
+  .press a{display:flex;align-items:center}
+  .press img{--logo-scale:.82;width:calc(var(--w,110px) * var(--logo-scale));height:calc(var(--h,26px) * var(--logo-scale));object-fit:contain;object-position:center;opacity:.72;filter:grayscale(1);transition:opacity .2s,filter .2s}
+  .press a:hover img{opacity:1;filter:none}
   .press a:hover img{opacity:1;filter:none}
 
   /* ---------- sections ---------- */
@@ -113,20 +115,24 @@
   .well-mark{width:52px;height:52px;flex:0 0 auto;display:grid;place-items:center;background:rgba(237,104,113,.14);border-radius:14px}
 
   /* ---------- quotes ---------- */
-  .quotes{background:var(--mist)}
+  .quotes{position:relative;isolation:isolate;overflow:hidden;background:var(--mist)}
+  .quotes-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;z-index:-2;filter:grayscale(.65) blur(2px);transform:scale(1.03)}
+  .quotes::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to right, rgba(237,242,247,.985) 0%, rgba(237,242,247,.965) 60%, rgba(237,242,247,.93) 100%)}
   .q-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;margin-top:42px;align-items:stretch}
   .q-grid figure{display:flex;flex-direction:column}
   blockquote{
     font-family:'NewsreaderLocal',Georgia,serif;font-style:italic;
     font-size:clamp(19px,2vw,22px);line-height:1.45;color:var(--ink);letter-spacing:-.01em;
   }
-  .q-who{margin-top:auto;padding-bottom:2px;padding-top:14px;margin-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--ink-soft)}
+  .q-who{margin-top:auto;padding-bottom:2px;padding-top:14px;border-top:1px solid var(--line);font-size:14px;color:var(--ink-soft)}
   .q-who b{display:block;font-weight:600;color:var(--ink);font-size:15px}
+  .q-who .role{display:block;min-height:2.7em}
   .count{margin-top:34px;font-size:15px;color:var(--ink-soft)}
 
   /* ---------- partners ---------- */
   .p-row{display:flex;align-items:center;gap:clamp(24px,5vw,56px);flex-wrap:wrap;margin-top:8px}
-  .p-row img{height:40px;max-width:150px;width:auto;object-fit:contain;opacity:.68;filter:grayscale(1)}
+  .p-row img{--logo-scale:1;width:calc(var(--w,120px) * var(--logo-scale));height:calc(var(--h,38px) * var(--logo-scale));object-fit:contain;object-position:center;opacity:.78;filter:grayscale(1);transition:opacity .2s,filter .2s}
+  .p-row img:hover{opacity:1;filter:none}
 
   /* ---------- about ---------- */
   .about-in{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(32px,5vw,70px);align-items:center}
@@ -165,6 +171,8 @@
     /* portrait crops lose the left-to-right scrim, so darken bottom-up instead */
     .hero::before{background:linear-gradient(to top, rgba(10,22,45,.94) 18%, rgba(10,22,45,.78) 52%, rgba(10,22,45,.42) 100%)}
     .hero-actions .btn{flex:1 1 auto;text-align:center}
+    /* portrait crop: skip the ceiling, keep the room and people in frame */
+    .hero-bg{object-position:50% 68%}
     .wrap{padding:0 20px}
     .nav-in{padding:0 20px;gap:12px}
 
@@ -182,6 +190,7 @@
       background:var(--line);cursor:pointer;transition:background .2s,width .2s;
     }
     .dots button[aria-current="true"]{background:var(--blue);width:22px;border-radius:5px}
+    .press img,.p-row img{--logo-scale:.7}
     .team-names{columns:1}
   }
   @media (prefers-reduced-motion:reduce){
@@ -211,26 +220,37 @@
 </nav>
 
 <header class="hero">
-  <img class="hero-bg" src="images/partners/CareCompass%20Team%20Image.avif" alt="">
+  <!-- Swap to images/photos/roadshow-team.jpg if Zaobao clears the press photo -->
+  <img class="hero-bg" src="images/photos/community-session.jpg" alt="CareCompass volunteers running a session for seniors at a community centre">
   <div class="wrap hero-in">
-    <h1>Caregiving is hard.<br>Finding help shouldn't be.</h1>
+    <h1>Caregiving is hard.<br><em>Finding help</em> shouldn't be.</h1>
     <p>A free tool that makes every step of your caregiving journey easier. Find the right care services, subsidies, and support instantly, tailored specifically to your needs.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="https://my.carecompass.sg">Try CareCompass</a>
       <a class="btn btn-ghost" href="#how">See how it works</a>
     </div>
   </div>
-  <div class="photo-credit">Placeholder image</div>
+  
 </header>
 
 <div class="press">
   <div class="wrap press-in">
     <span class="press-label">Featured in</span>
-    <a href="#"><img src="images/partners/straits-times-logo.svg" alt="The Straits Times"></a>
-    <a href="#"><img src="images/partners/cna-logo.svg" alt="CNA"></a>
-    <a href="#"><img src="images/partners/lianhe-zaobao-logo.svg" alt="Lianhe Zaobao"></a>
-    <a href="#"><img src="images/partners/vulcanpost-logo.svg" alt="Vulcan Post"></a>
-    <a href="#"><img src="images/partners/ogp-logo.svg" alt="Open Government Products"></a>
+    <a href="https://www.straitstimes.com/singapore/community/sporeans-come-together-to-build-apps-for-the-good-of-caregivers-and-isolated-seniors" target="_blank" rel="noopener" title="The Straits Times">
+      <img src="images/partners/straits-times-logo.svg" alt="The Straits Times" style="--w:169px;--h:36px">
+    </a>
+    <a href="https://www.youtube.com/watch?v=KX2G3V4DkzE&t=165s" target="_blank" rel="noopener" title="CNA">
+      <img src="images/partners/cna-logo.svg" alt="CNA" style="--w:27px;--h:34px">
+    </a>
+    <a href="https://www.zaobao.com.sg/news/singapore/story20241130-5433398" target="_blank" rel="noopener" title="Lianhe Zaobao">
+      <img src="images/partners/lianhe-zaobao-logo.svg" alt="Lianhe Zaobao" style="--w:110px;--h:34px">
+    </a>
+    <a href="https://build.gov.sg/carecompass/" target="_blank" rel="noopener" title="Build for Good · OGP">
+      <img src="images/partners/ogp-logo.svg" alt="Build for Good · OGP" style="--w:104px;--h:26px">
+    </a>
+    <a href="https://vulcanpost.com/911609/sgpo-build-for-good-citizen-initiatives/" target="_blank" rel="noopener" title="Vulcan Post">
+      <img src="images/partners/vulcanpost-logo.svg" alt="Vulcan Post" style="--w:105px;--h:25px">
+    </a>
   </div>
 </div>
 
@@ -291,20 +311,21 @@
 </section>
 
 <section class="quotes" id="voices">
+  <img class="quotes-bg" src="images/photos/caregiver-workshop.jpg" alt="">
   <div class="wrap">
     <div class="sec-head"><h2>Hear from our caregivers</h2></div>
     <div class="q-grid">
       <figure>
         <blockquote>“I think it's quite helpful and user-friendly, especially for first-time caregivers; it's good to have a list of what's available for caregivers to choose from.”</blockquote>
-        <figcaption class="q-who"><b>Jeannie Wong Hwee Fang</b>Dementia caregiver of 8 years</figcaption>
+        <figcaption class="q-who"><b>Jeannie Wong Hwee Fang</b><span class="role">Dementia caregiver of 8 years</span></figcaption>
       </figure>
       <figure>
         <blockquote>“These conversations aren't normalised, and it was hard to find someone who'd been through the same experience. With CareCompass, I have the help that replaces the person I needed at that time.”</blockquote>
-        <figcaption class="q-who"><b>Toby Gail</b>Caring for her grandparent with dementia for 3 years</figcaption>
+        <figcaption class="q-who"><b>Toby Gail</b><span class="role">Caring for her grandparent with dementia for 3 years</span></figcaption>
       </figure>
       <figure>
         <blockquote>“I think this is good because it's concentrated. Googling will get similar answers, but not as streamlined, not as targeted. This would be good!”</blockquote>
-        <figcaption class="q-who"><b>Matthew Lim</b>Caring for two family members with Alzheimer's</figcaption>
+        <figcaption class="q-who"><b>Matthew Lim</b><span class="role">Caring for two family members with Alzheimer's</span></figcaption>
       </figure>
     </div>
     <p class="count">4,000+ caregivers have used CareCompass since November 2024. <a href="/faq#methodology" style="color:var(--blue-deep);font-weight:600">Read the methodology</a></p>
@@ -319,11 +340,12 @@
     </div>
     <div class="p-row">
       <img src="images/partners/ogp-logo.svg" alt="Open Government Products">
-      <img src="images/partners/aic-logo.webp" alt="Agency for Integrated Care">
-      <img src="images/partners/dementia-singapore-logo.webp" alt="Dementia Singapore">
-      <img src="images/partners/bettersg-logo.svg.svg" alt="better.sg">
-      <img src="images/partners/mindfull-logo.png" alt="Mindfull Community">
-      <img src="images/partners/pa-logo.png" alt="People's Association">
+      <img src="images/partners/aic-logo.webp" alt="Agency for Integrated Care" style="--w:64px;--h:46px">
+      <img src="images/partners/dementia-singapore-logo.webp" alt="Dementia Singapore" style="--w:108px;--h:34px">
+      <img src="images/partners/mindfull-logo.png" alt="Mindfull Community" style="--w:95px;--h:34px">
+      <img src="images/partners/pa-logo.png" alt="People's Association" style="--w:57px;--h:51px">
+      <img src="images/partners/bettersg-logo.svg.svg" alt="better.sg" style="--w:114px;--h:36px">
+      <img src="images/partners/schemes-sg-logo.png" alt="Schemes.sg">
     </div>
   </div>
 </section>
